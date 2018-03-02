@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "PDBaseLib"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "A short description of PDBaseLib."
 
   # This description is used to generate tags and improve search results.
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
                    DESC
 
-  s.homepage     = "http://EXAMPLE/PDBaseLib"
+  s.homepage     = "https://github.com/PipeDog/PDBaseLib"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -54,7 +54,7 @@ Pod::Spec.new do |s|
 
   s.author             = { "liang" => "1007279249@qq.com" }
   # Or just: s.author    = "liang"
-  # s.authors            = { "liang" => "leiliang@didichuxing.com" }
+  # s.authors            = { "liang" => "1007279249@qq.com" }
   # s.social_media_url   = "http://twitter.com/liang"
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -79,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "http://EXAMPLE/PDBaseLib.git", :tag => "#{s.version}" }
+  s.source       = { :git => "git@github.com:PipeDog/PDBaseLib.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
