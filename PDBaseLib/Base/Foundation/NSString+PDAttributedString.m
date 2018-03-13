@@ -57,96 +57,28 @@
                                string:(NSString *)aString
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self];
-    if (self.length == 0) return attributedString;
-    
-    NSArray <NSArray *>*ranges = [self onceMatchComponentsByString:aString];
-    if (ranges.count == 0) return attributedString;
-    
-    for (NSArray *matchInfo in ranges) {
-        BOOL isMatch  = [matchInfo[0] boolValue];
-        NSRange range = [matchInfo[1] rangeValue];
-        
-        if (matchType == PDAttributedStringMatchTypeMatchOnce) {
-            if (isMatch) [attributedString setAttributes:attrs range:range];
-        }
-        else if (matchType == PDAttributedStringMatchTypeUnmatch) {
-            if (!isMatch) [attributedString setAttributes:attrs range:range];
-        }
-    }
-    return [attributedString copy];
+    return [attributedString setAttributes:attrs string:aString matchType:matchType];
 }
 
 - (NSAttributedString *)addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
                                string:(NSString *)aString
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self];
-    if (self.length == 0) return attributedString;
-    
-    NSArray <NSArray *>*ranges = [self onceMatchComponentsByString:aString];
-    if (ranges.count == 0) return attributedString;
-    
-    for (NSArray *matchInfo in ranges) {
-        BOOL isMatch  = [matchInfo[0] boolValue];
-        NSRange range = [matchInfo[1] rangeValue];
-        
-        if (matchType == PDAttributedStringMatchTypeMatchOnce) {
-            if (isMatch) [attributedString addAttributes:attrs range:range];
-        }
-        else if (matchType == PDAttributedStringMatchTypeUnmatch) {
-            if (!isMatch) [attributedString addAttributes:attrs range:range];
-        }
-    }
-    return [attributedString copy];
+    return [attributedString addAttributes:attrs string:aString matchType:matchType];
 }
 
 - (NSAttributedString *)setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
                                 range:(NSRange)range
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self];
-    if (self.length == 0) return attributedString;
-    
-    if (range.location > self.length) range.length = self.length;
-    
-    NSArray <NSArray *>*ranges = [self onceMatchComponentsByRange:range];
-    if (ranges.count == 0) return attributedString;
-    
-    for (NSArray *matchInfo in ranges) {
-        BOOL isMatch   = [matchInfo[0] boolValue];
-        NSRange _range = [matchInfo[1] rangeValue];
-        
-        if (matchType == PDAttributedStringMatchTypeMatchOnce) {
-            if (isMatch) [attributedString setAttributes:attrs range:_range];
-        }
-        else if (matchType == PDAttributedStringMatchTypeUnmatch) {
-            if (!isMatch) [attributedString setAttributes:attrs range:_range];
-        }
-    }
-    return [attributedString copy];
+    return [attributedString setAttributes:attrs range:range matchType:matchType];
 }
 
 - (NSAttributedString *)addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
                                 range:(NSRange)range
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self];
-    if (self.length == 0) return attributedString;
-    
-    if (range.location > self.length) range.length = self.length;
-    
-    NSArray <NSArray *>*ranges = [self onceMatchComponentsByRange:range];
-    if (ranges.count == 0) return attributedString;
-    
-    for (NSArray *matchInfo in ranges) {
-        BOOL isMatch   = [matchInfo[0] boolValue];
-        NSRange _range = [matchInfo[1] rangeValue];
-        
-        if (matchType == PDAttributedStringMatchTypeMatchOnce) {
-            if (isMatch) [attributedString addAttributes:attrs range:_range];
-        }
-        else if (matchType == PDAttributedStringMatchTypeUnmatch) {
-            if (!isMatch) [attributedString addAttributes:attrs range:_range];
-        }
-    }
-    return [attributedString copy];
+    return [attributedString addAttributes:attrs range:range matchType:matchType];
 }
 
 @end
