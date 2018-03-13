@@ -35,9 +35,6 @@ typedef NS_ENUM(NSUInteger, PDAttributedStringMatchType) {
                                 range:(NSRange)range
                             matchType:(PDAttributedStringMatchType)matchType;
 
-- (NSArray<NSArray *> *)allMatchComponentsByString:(NSString *)aString;
-- (NSArray<NSArray *> *)allUnmatchComponentsByString:(NSString *)aString;
-
 @end
 
 @interface NSString (PDAttributedString) <PDAttributedStringProtol>
