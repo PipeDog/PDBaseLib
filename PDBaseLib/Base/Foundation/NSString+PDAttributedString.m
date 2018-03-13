@@ -151,6 +151,7 @@
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
     if (self.length == 0) return attributedString;
+    if (!attrs) return attributedString;
     
     NSArray <NSArray *>*components = [attributedString componentsByString:aString matchType:matchType];
     if (components.count == 0) return attributedString;
@@ -180,7 +181,8 @@
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
     if (self.length == 0) return attributedString;
-    
+    if (!attrs) return attributedString;
+
     NSArray <NSArray *>*components = [attributedString componentsByString:aString matchType:matchType];
     if (components.count == 0) return attributedString;
     
@@ -209,7 +211,8 @@
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
     if (self.length == 0) return attributedString;
-    
+    if (!attrs) return attributedString;
+
     if (range.location > self.length) range.length = self.length;
     
     NSArray <NSArray *>*components = [self.string onceMatchComponentsByRange:range];
@@ -236,7 +239,8 @@
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
     if (self.length == 0) return attributedString;
-    
+    if (!attrs) return attributedString;
+
     if (range.location > self.length) range.length = self.length;
     
     NSArray <NSArray *>*components = [self.string onceMatchComponentsByRange:range];
@@ -276,4 +280,3 @@
 }
 
 @end
-

@@ -15,6 +15,8 @@ typedef NS_ENUM(NSUInteger, PDAttributedStringMatchType) {
     PDAttributedStringMatchTypeUnmatchAll  = 3, ///< Unmatched substrings with matched all.
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol PDAttributedStringProtol <NSObject>
 
 @optional
@@ -44,3 +46,5 @@ typedef NS_ENUM(NSUInteger, PDAttributedStringMatchType) {
 @interface NSAttributedString (PDAdd) <PDAttributedStringProtol>
 
 @end
+
+NS_ASSUME_NONNULL_END
