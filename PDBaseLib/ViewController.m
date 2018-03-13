@@ -7,12 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "NSString+PDAttributedString.h"
 
 @interface ViewController ()
-
-@property (weak, nonatomic) IBOutlet UILabel *bottom1Label;
-@property (weak, nonatomic) IBOutlet UILabel *bottom2Label;
 
 @end
 
@@ -21,15 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    NSDictionary<NSAttributedStringKey, id> *attrDict = @{NSFontAttributeName: [UIFont systemFontOfSize:40],
-                                                          NSForegroundColorAttributeName: [UIColor redColor],
-                                                          NSStrokeColorAttributeName: [UIColor blueColor],
-                                                          NSStrokeWidthAttributeName: @2};
-    NSString *text = @"Do any additional setup after loading the view, typically from a nib.";
-    NSAttributedString *attrString = [text addAttributes:attrDict range:NSMakeRange(0, 10) matchType:PDAttributedStringMatchTypeMatchOnce];
-    attrString = [attrString addAttributes:attrDict range:NSMakeRange(15, 10) matchType:PDAttributedStringMatchTypeMatchOnce];
-    self.bottom1Label.attributedText = attrString;
 }
 
 

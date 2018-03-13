@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, PDAttributedStringMatchType) {
-    PDAttributedStringMatchTypeMatchOnce = 0, ///< The first matching substring.
-    PDAttributedStringMatchTypeUnmatch   = 1, ///< Unmatched substrings.
+    PDAttributedStringMatchTypeMatchOnce   = 0, ///< The first matching substring.
+    PDAttributedStringMatchTypeUnmatchOnce = 1, ///< Unmatched substrings with matched once.
+    PDAttributedStringMatchTypeMatchAll    = 2, ///< Match all substring.
+    PDAttributedStringMatchTypeUnmatchAll  = 3, ///< Unmatched substrings with matched all.
 };
 
 @protocol PDAttributedStringProtol <NSObject>
@@ -32,6 +34,9 @@ typedef NS_ENUM(NSUInteger, PDAttributedStringMatchType) {
 - (NSAttributedString *)addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
                                 range:(NSRange)range
                             matchType:(PDAttributedStringMatchType)matchType;
+
+- (NSArray<NSArray *> *)allMatchComponentsByString:(NSString *)aString;
+- (NSArray<NSArray *> *)allUnmatchComponentsByString:(NSString *)aString;
 
 @end
 
