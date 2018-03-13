@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, PDAttributedStringMatchType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol PDAttributedStringProtol <NSObject>
+@protocol PDAttributedStringProtocol <NSObject>
 
 @optional
 // The key can refer to the <<< NSAttributedString.h >>> in <<< UIKit >>>.
@@ -39,11 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface NSString (PDAttributedString) <PDAttributedStringProtol>
+@interface NSString (PDAttributedString) <PDAttributedStringProtocol>
 
 @end
 
-@interface NSAttributedString (PDAdd) <PDAttributedStringProtol>
+@interface NSAttributedString (PDAdd) <PDAttributedStringProtocol>
 
 @end
 
