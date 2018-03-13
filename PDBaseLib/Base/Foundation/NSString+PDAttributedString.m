@@ -151,39 +151,11 @@
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
     if (self.length == 0) return attributedString;
-
-    /*
-    NSArray <NSArray *>*ranges = [self.string onceMatchComponentsByString:aString];
-    if (ranges.count == 0) return attributedString;
     
-    for (NSArray *matchInfo in ranges) {
-        BOOL isMatch  = [matchInfo[0] boolValue];
-        NSRange range = [matchInfo[1] rangeValue];
-        
-        if (matchType == PDAttributedStringMatchTypeMatchOnce) {
-            if (isMatch) [attributedString setAttributes:attrs range:range];
-        }
-        else if (matchType == PDAttributedStringMatchTypeUnmatchOnce) {
-            if (!isMatch) [attributedString setAttributes:attrs range:range];
-        }
-    }
-     */
+    NSArray <NSArray *>*components = [attributedString componentsByString:aString matchType:matchType];
+    if (components.count == 0) return attributedString;
     
-    NSArray <NSArray *>*ranges;
-    
-    if (matchType == PDAttributedStringMatchTypeMatchOnce ||
-        matchType == PDAttributedStringMatchTypeUnmatchOnce) {
-        ranges = [attributedString.string onceMatchComponentsByString:aString];
-    }
-    else if (matchType == PDAttributedStringMatchTypeMatchAll) {
-        ranges = [attributedString.string allMatchComponentsByString:aString];
-    }
-    else if (matchType == PDAttributedStringMatchTypeUnmatchAll) {
-        ranges = [attributedString.string allUnmatchComponentsByString:aString];
-    }
-    if (ranges.count == 0) return attributedString;
-    
-    for (NSArray *matchInfo in ranges) {
+    for (NSArray *matchInfo in components) {
         BOOL isMatch  = [matchInfo[0] boolValue];
         NSRange range = [matchInfo[1] rangeValue];
         
@@ -207,40 +179,12 @@
                                string:(NSString *)aString
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
-    if (self.length == 0) { return attributedString; }
+    if (self.length == 0) return attributedString;
     
-    /*
-    NSArray <NSArray *>*ranges = [self.string onceMatchComponentsByString:aString];
-    if (ranges.count == 0) { return attributedString; }
+    NSArray <NSArray *>*components = [attributedString componentsByString:aString matchType:matchType];
+    if (components.count == 0) return attributedString;
     
-    for (NSArray *matchInfo in ranges) {
-        BOOL isMatch  = [matchInfo[0] boolValue];
-        NSRange range = [matchInfo[1] rangeValue];
-        
-        if (matchType == PDAttributedStringMatchTypeMatchOnce) {
-            if (isMatch) [attributedString addAttributes:attrs range:range];
-        }
-        else if (matchType == PDAttributedStringMatchTypeUnmatchOnce) {
-            if (!isMatch) [attributedString addAttributes:attrs range:range];
-        }
-    }
-     */
-    
-    NSArray <NSArray *>*ranges;
-    
-    if (matchType == PDAttributedStringMatchTypeMatchOnce ||
-        matchType == PDAttributedStringMatchTypeUnmatchOnce) {
-        ranges = [attributedString.string onceMatchComponentsByString:aString];
-    }
-    else if (matchType == PDAttributedStringMatchTypeMatchAll) {
-        ranges = [attributedString.string allMatchComponentsByString:aString];
-    }
-    else if (matchType == PDAttributedStringMatchTypeUnmatchAll) {
-        ranges = [attributedString.string allUnmatchComponentsByString:aString];
-    }
-    if (ranges.count == 0) return attributedString;
-    
-    for (NSArray *matchInfo in ranges) {
+    for (NSArray *matchInfo in components) {
         BOOL isMatch  = [matchInfo[0] boolValue];
         NSRange range = [matchInfo[1] rangeValue];
         
@@ -268,10 +212,10 @@
     
     if (range.location > self.length) range.length = self.length;
     
-    NSArray <NSArray *>*ranges = [self.string onceMatchComponentsByRange:range];
-    if (ranges.count == 0) return attributedString;
+    NSArray <NSArray *>*components = [self.string onceMatchComponentsByRange:range];
+    if (components.count == 0) return attributedString;
     
-    for (NSArray *matchInfo in ranges) {
+    for (NSArray *matchInfo in components) {
         BOOL isMatch   = [matchInfo[0] boolValue];
         NSRange _range = [matchInfo[1] rangeValue];
         
@@ -295,10 +239,10 @@
     
     if (range.location > self.length) range.length = self.length;
     
-    NSArray <NSArray *>*ranges = [self.string onceMatchComponentsByRange:range];
-    if (ranges.count == 0) return attributedString;
+    NSArray <NSArray *>*components = [self.string onceMatchComponentsByRange:range];
+    if (components.count == 0) return attributedString;
     
-    for (NSArray *matchInfo in ranges) {
+    for (NSArray *matchInfo in components) {
         BOOL isMatch   = [matchInfo[0] boolValue];
         NSRange _range = [matchInfo[1] rangeValue];
         
@@ -312,6 +256,23 @@
         }
     }
     return [attributedString copy];
+}
+
+// Get components with different matchType.
+- (NSArray<NSArray *> *)componentsByString:(NSString *)aString matchType:(PDAttributedStringMatchType)matchType {
+    NSArray <NSArray *>*components = @[];
+    
+    if (matchType == PDAttributedStringMatchTypeMatchOnce ||
+        matchType == PDAttributedStringMatchTypeUnmatchOnce) {
+        components = [self.string onceMatchComponentsByString:aString];
+    }
+    else if (matchType == PDAttributedStringMatchTypeMatchAll) {
+        components = [self.string allMatchComponentsByString:aString];
+    }
+    else if (matchType == PDAttributedStringMatchTypeUnmatchAll) {
+        components = [self.string allUnmatchComponentsByString:aString];
+    }
+    return components;
 }
 
 @end
