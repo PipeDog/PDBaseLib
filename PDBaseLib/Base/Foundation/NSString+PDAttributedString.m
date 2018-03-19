@@ -10,9 +10,6 @@
 
 @interface NSString (PDMatchString)
 
-- (NSArray<NSArray *> *)onceMatchComponentsByString:(NSString *)aString;
-- (NSArray<NSArray *> *)onceMatchComponentsByRange:(NSRange)range;
-
 @end
 
 @implementation NSString (PDMatchString)
@@ -95,18 +92,106 @@
             NSRange unmatchRange = NSMakeRange(firstCharLoc, matchRange.location);
             [unmatchAllComponents addObject:@[@(NO), [NSValue valueWithRange:unmatchRange]]];
         }
-        else if (i == matchAllComponents.count - 1) {
+        if (i == matchAllComponents.count - 1) {
             NSRange unmatchRange = NSMakeRange(matchRange.location + matchRange.length, lastCharLoc - (matchRange.location + matchRange.length));
             [unmatchAllComponents addObject:@[@(NO), [NSValue valueWithRange:unmatchRange]]];
         }
         else {
             NSArray *nextElement = matchAllComponents[i + 1];
             NSRange nextMatchRange = [nextElement[1] rangeValue];
-
+            
             NSRange unmatchRange = NSMakeRange(matchRange.location + matchRange.length, nextMatchRange.location - (matchRange.location + matchRange.length));
             [unmatchAllComponents addObject:@[@(NO), [NSValue valueWithRange:unmatchRange]]];
         }
     }
+    return unmatchAllComponents;
+}
+
+- (NSArray<NSArray *> *)onceMatchComponentsByRegexString:(NSString *)regexString {
+    NSError *error;
+    if (!regexString.length) return @[];
+
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:NSRegularExpressionDotMatchesLineSeparators error:&error];
+    if (error) {
+        NSLog(@"Regular expression builds fail, error = (%@).", error);
+        return @[];
+    }
+    NSString *selfCopy = [self copy];
+    
+    NSArray<NSTextCheckingResult *> *matchResults = [regex matchesInString:selfCopy options:NSMatchingReportProgress range:NSMakeRange(0, selfCopy.length)];
+    if (!matchResults.count) return @[];
+    
+    NSString *matchString = [selfCopy substringWithRange:matchResults.firstObject.range];
+    
+    NSRange matchRange = [selfCopy rangeOfString:matchString];
+    NSRange frontRange = NSMakeRange(0, matchRange.location);
+    NSRange rearRange  = NSMakeRange(matchRange.location + matchRange.length,
+                                     selfCopy.length - (matchRange.location + matchRange.length));
+    
+    return @[@[@(NO),  [NSValue valueWithRange:frontRange]],
+             @[@(YES), [NSValue valueWithRange:matchRange]],
+             @[@(NO),  [NSValue valueWithRange:rearRange]]];
+
+}
+
+- (NSArray<NSArray *> *)allMatchComponentsByRegexString:(NSString *)regexString {
+    if (!regexString.length) return @[];
+
+    NSError *error;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:NSRegularExpressionDotMatchesLineSeparators error:&error];
+    if (error) {
+        NSLog(@"Regular expression builds fail, error = (%@).", error);
+        return @[];
+    }
+    NSString *selfCopy = [self copy];
+    
+    NSArray<NSTextCheckingResult *> *matchResults = [regex matchesInString:selfCopy options:NSMatchingReportProgress range:NSMakeRange(0, selfCopy.length)];
+    if (!matchResults.count) return @[];
+    
+    NSMutableArray<NSArray *> *components = [NSMutableArray array];
+    
+    for (NSTextCheckingResult *element in matchResults) {
+        NSRange range = element.range;
+        [components addObject:@[@(YES), [NSValue valueWithRange:range]]];
+    }
+    return components;
+}
+
+- (NSArray<NSArray *> *)allUnmatchComponentsByRegexString:(NSString *)regexString {
+    NSArray<NSArray *> *matchAllComponents = [self allMatchComponentsByRegexString:regexString];
+    if (!matchAllComponents.count) {
+        NSString *selfCopy = [self copy];
+        return @[@[@(YES), [NSValue valueWithRange:NSMakeRange(0, selfCopy.length)]]];
+    }
+    
+    NSMutableArray<NSArray *> *unmatchAllComponents = [NSMutableArray array];
+    
+    NSString *selfCopy = [self copy];
+    NSUInteger firstCharLoc = 0;
+    NSUInteger lastCharLoc = selfCopy.length;
+    
+    
+    for (NSUInteger i = 0; i < matchAllComponents.count; i += 1) {
+        NSArray *element = matchAllComponents[i];
+        NSRange matchRange = [element[1] rangeValue];
+        
+        if (i == 0) {
+            NSRange unmatchRange = NSMakeRange(firstCharLoc, matchRange.location);
+            [unmatchAllComponents addObject:@[@(NO), [NSValue valueWithRange:unmatchRange]]];
+        }
+        if (i == matchAllComponents.count - 1) {
+            NSRange unmatchRange = NSMakeRange(matchRange.location + matchRange.length, lastCharLoc - (matchRange.location + matchRange.length));
+            [unmatchAllComponents addObject:@[@(NO), [NSValue valueWithRange:unmatchRange]]];
+        }
+        else {
+            NSArray *nextElement = matchAllComponents[i + 1];
+            NSRange nextMatchRange = [nextElement[1] rangeValue];
+            
+            NSRange unmatchRange = NSMakeRange(matchRange.location + matchRange.length, nextMatchRange.location - (matchRange.location + matchRange.length));
+            [unmatchAllComponents addObject:@[@(NO), [NSValue valueWithRange:unmatchRange]]];
+        }
+    }
+
     return unmatchAllComponents;
 }
 
@@ -142,6 +227,20 @@
     return [attributedString addAttributes:attrs range:range matchType:matchType];
 }
 
+- (NSAttributedString *)setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
+                                regex:(NSString *)regexString
+                            matchType:(PDAttributedStringMatchType)matchType {
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self];
+    return [attributedString setAttributes:attrs regex:regexString matchType:matchType];
+}
+
+- (NSAttributedString *)addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
+                                regex:(NSString *)regexString
+                            matchType:(PDAttributedStringMatchType)matchType {
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self];
+    return [attributedString addAttributes:attrs regex:regexString matchType:matchType];
+}
+
 @end
 
 @implementation NSAttributedString (PDAdd)
@@ -153,8 +252,8 @@
     if (self.length == 0) return attributedString;
     if (!attrs) return attributedString;
     
-    NSArray <NSArray *>*components = [attributedString componentsByString:aString matchType:matchType];
-    if (components.count == 0) return attributedString;
+    NSArray<NSArray *> *components = [attributedString componentsByString:aString matchType:matchType];
+    if (components.count == 0) return [attributedString copy];
     
     for (NSArray *matchInfo in components) {
         BOOL isMatch  = [matchInfo[0] boolValue];
@@ -183,8 +282,8 @@
     if (self.length == 0) return attributedString;
     if (!attrs) return attributedString;
 
-    NSArray <NSArray *>*components = [attributedString componentsByString:aString matchType:matchType];
-    if (components.count == 0) return attributedString;
+    NSArray<NSArray *> *components = [attributedString componentsByString:aString matchType:matchType];
+    if (components.count == 0) return [attributedString copy];
     
     for (NSArray *matchInfo in components) {
         BOOL isMatch  = [matchInfo[0] boolValue];
@@ -215,8 +314,8 @@
 
     if (range.location > self.length) range.length = self.length;
     
-    NSArray <NSArray *>*components = [self.string onceMatchComponentsByRange:range];
-    if (components.count == 0) return attributedString;
+    NSArray<NSArray *> *components = [self.string onceMatchComponentsByRange:range];
+    if (components.count == 0) return [attributedString copy];
     
     for (NSArray *matchInfo in components) {
         BOOL isMatch   = [matchInfo[0] boolValue];
@@ -239,11 +338,11 @@
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
     if (self.length == 0) return attributedString;
-    if (!attrs) return attributedString;
+    if (!attrs) return [attributedString copy];
 
     if (range.location > self.length) range.length = self.length;
     
-    NSArray <NSArray *>*components = [self.string onceMatchComponentsByRange:range];
+    NSArray<NSArray *> *components = [self.string onceMatchComponentsByRange:range];
     if (components.count == 0) return attributedString;
     
     for (NSArray *matchInfo in components) {
@@ -262,9 +361,69 @@
     return [attributedString copy];
 }
 
+- (NSAttributedString *)setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
+                                regex:(NSString *)regexString
+                            matchType:(PDAttributedStringMatchType)matchType {
+    NSMutableAttributedString *attributedString = [self mutableCopy];
+    if (self.length == 0) return attributedString;
+    if (!attrs) return attributedString;
+    
+    NSArray<NSArray *> *components = [attributedString componentsByRegex:regexString matchType:matchType];
+    if (components.count == 0) return [attributedString copy];
+    
+    for (NSArray *matchInfo in components) {
+        BOOL isMatch  = [matchInfo[0] boolValue];
+        NSRange range = [matchInfo[1] rangeValue];
+        
+        if (matchType == PDAttributedStringMatchTypeMatchOnce) {
+            if (isMatch) [attributedString setAttributes:attrs range:range];
+        }
+        else if (matchType == PDAttributedStringMatchTypeUnmatchOnce) {
+            if (!isMatch) [attributedString setAttributes:attrs range:range];
+        }
+        else if (matchType == PDAttributedStringMatchTypeMatchAll) {
+            if (isMatch) [attributedString setAttributes:attrs range:range];
+        }
+        else if (matchType == PDAttributedStringMatchTypeUnmatchAll) {
+            if (!isMatch) [attributedString setAttributes:attrs range:range];
+        }
+    }
+    return [attributedString copy];
+}
+
+- (NSAttributedString *)addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
+                                regex:(NSString *)regexString
+                            matchType:(PDAttributedStringMatchType)matchType {
+    NSMutableAttributedString *attributedString = [self mutableCopy];
+    if (self.length == 0) return attributedString;
+    if (!attrs) return attributedString;
+    
+    NSArray<NSArray *> *components = [attributedString componentsByRegex:regexString matchType:matchType];
+    if (components.count == 0) return [attributedString copy];
+    
+    for (NSArray *matchInfo in components) {
+        BOOL isMatch  = [matchInfo[0] boolValue];
+        NSRange range = [matchInfo[1] rangeValue];
+        
+        if (matchType == PDAttributedStringMatchTypeMatchOnce) {
+            if (isMatch) [attributedString addAttributes:attrs range:range];
+        }
+        else if (matchType == PDAttributedStringMatchTypeUnmatchOnce) {
+            if (!isMatch) [attributedString addAttributes:attrs range:range];
+        }
+        else if (matchType == PDAttributedStringMatchTypeMatchAll) {
+            if (isMatch) [attributedString addAttributes:attrs range:range];
+        }
+        else if (matchType == PDAttributedStringMatchTypeUnmatchAll) {
+            if (!isMatch) [attributedString addAttributes:attrs range:range];
+        }
+    }
+    return [attributedString copy];
+}
+
 // Get components with different matchType.
 - (NSArray<NSArray *> *)componentsByString:(NSString *)aString matchType:(PDAttributedStringMatchType)matchType {
-    NSArray <NSArray *>*components = @[];
+    NSArray<NSArray *> *components = @[];
     
     if (matchType == PDAttributedStringMatchTypeMatchOnce ||
         matchType == PDAttributedStringMatchTypeUnmatchOnce) {
@@ -275,6 +434,22 @@
     }
     else if (matchType == PDAttributedStringMatchTypeUnmatchAll) {
         components = [self.string allUnmatchComponentsByString:aString];
+    }
+    return components;
+}
+
+- (NSArray<NSArray *> *)componentsByRegex:(NSString *)regexString matchType:(PDAttributedStringMatchType)matchType {
+    NSArray<NSArray *> *components = @[];
+    
+    if (matchType == PDAttributedStringMatchTypeMatchOnce ||
+        matchType == PDAttributedStringMatchTypeUnmatchOnce) {
+        components = [self.string onceMatchComponentsByRegexString:regexString];
+    }
+    else if (matchType == PDAttributedStringMatchTypeMatchAll) {
+        components = [self.string allMatchComponentsByRegexString:regexString];
+    }
+    else if (matchType == PDAttributedStringMatchTypeUnmatchAll) {
+        components = [self.string allUnmatchComponentsByRegexString:regexString];
     }
     return components;
 }

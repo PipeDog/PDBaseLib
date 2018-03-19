@@ -37,6 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
                                 range:(NSRange)range
                             matchType:(PDAttributedStringMatchType)matchType;
 
+- (NSAttributedString *)setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
+                               regex:(NSString *)regexString
+                            matchType:(PDAttributedStringMatchType)matchType;
+
+- (NSAttributedString *)addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
+                                regex:(NSString *)regexString
+                            matchType:(PDAttributedStringMatchType)matchType;
+
 @end
 
 @interface NSString (PDAttributedString) <PDAttributedStringProtocol>
