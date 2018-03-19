@@ -249,8 +249,8 @@
                                string:(NSString *)aString
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
-    if (self.length == 0) return attributedString;
-    if (!attrs) return attributedString;
+    if (self.length == 0) return [attributedString copy];
+    if (!attrs) return [attributedString copy];
     
     NSArray<NSArray *> *components = [attributedString componentsByString:aString matchType:matchType];
     if (components.count == 0) return [attributedString copy];
@@ -279,8 +279,8 @@
                                string:(NSString *)aString
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
-    if (self.length == 0) return attributedString;
-    if (!attrs) return attributedString;
+    if (self.length == 0) return [attributedString copy];
+    if (!attrs) return [attributedString copy];
 
     NSArray<NSArray *> *components = [attributedString componentsByString:aString matchType:matchType];
     if (components.count == 0) return [attributedString copy];
@@ -309,8 +309,8 @@
                                 range:(NSRange)range
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
-    if (self.length == 0) return attributedString;
-    if (!attrs) return attributedString;
+    if (self.length == 0) return [attributedString copy];
+    if (!attrs) return [attributedString copy];
 
     if (range.location > self.length) range.length = self.length;
     
@@ -337,7 +337,7 @@
                                 range:(NSRange)range
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
-    if (self.length == 0) return attributedString;
+    if (self.length == 0) return [attributedString copy];
     if (!attrs) return [attributedString copy];
 
     if (range.location > self.length) range.length = self.length;
@@ -365,8 +365,8 @@
                                 regex:(NSString *)regexString
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
-    if (self.length == 0) return attributedString;
-    if (!attrs) return attributedString;
+    if (self.length == 0) return [attributedString copy];
+    if (!attrs) return [attributedString copy];
     
     NSArray<NSArray *> *components = [attributedString componentsByRegex:regexString matchType:matchType];
     if (components.count == 0) return [attributedString copy];
@@ -395,8 +395,8 @@
                                 regex:(NSString *)regexString
                             matchType:(PDAttributedStringMatchType)matchType {
     NSMutableAttributedString *attributedString = [self mutableCopy];
-    if (self.length == 0) return attributedString;
-    if (!attrs) return attributedString;
+    if (self.length == 0) return [attributedString copy];
+    if (!attrs) return [attributedString copy];
     
     NSArray<NSArray *> *components = [attributedString componentsByRegex:regexString matchType:matchType];
     if (components.count == 0) return [attributedString copy];
