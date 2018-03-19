@@ -170,7 +170,6 @@
     NSUInteger firstCharLoc = 0;
     NSUInteger lastCharLoc = selfCopy.length;
     
-    
     for (NSUInteger i = 0; i < matchAllComponents.count; i += 1) {
         NSArray *element = matchAllComponents[i];
         NSRange matchRange = [element[1] rangeValue];
