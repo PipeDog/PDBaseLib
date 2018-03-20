@@ -121,9 +121,7 @@
     NSArray<NSTextCheckingResult *> *matchResults = [regex matchesInString:selfCopy options:NSMatchingReportProgress range:NSMakeRange(0, selfCopy.length)];
     if (!matchResults.count) return @[];
     
-    NSString *matchString = [selfCopy substringWithRange:matchResults.firstObject.range];
-    
-    NSRange matchRange = [selfCopy rangeOfString:matchString];
+    NSRange matchRange = matchResults.firstObject.range;
     NSRange frontRange = NSMakeRange(0, matchRange.location);
     NSRange rearRange  = NSMakeRange(matchRange.location + matchRange.length,
                                      selfCopy.length - (matchRange.location + matchRange.length));
@@ -131,7 +129,6 @@
     return @[@[@(NO),  [NSValue valueWithRange:frontRange]],
              @[@(YES), [NSValue valueWithRange:matchRange]],
              @[@(NO),  [NSValue valueWithRange:rearRange]]];
-    
 }
 
 - (NSArray<NSArray *> *)allMatchComponentsByRegexString:(NSString *)regexString {
@@ -190,7 +187,6 @@
             [unmatchAllComponents addObject:@[@(NO), [NSValue valueWithRange:unmatchRange]]];
         }
     }
-    
     return unmatchAllComponents;
 }
 
@@ -454,4 +450,3 @@
 }
 
 @end
-
