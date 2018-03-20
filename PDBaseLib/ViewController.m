@@ -11,7 +11,8 @@
 
 @interface ViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UILabel *topLabel;
+@property (weak, nonatomic) IBOutlet UILabel *bottomLabel;
 
 @end
 
@@ -21,15 +22,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    NSDictionary<NSAttributedStringKey, id> *attrs = @{NSFontAttributeName: [UIFont systemFontOfSize:30],
-                                                       NSForegroundColorAttributeName: [UIColor redColor],
+    NSDictionary<NSAttributedStringKey, id> *topAttrs = @{NSFontAttributeName: [UIFont systemFontOfSize:30],
                                                        NSStrokeWidthAttributeName: @2,
                                                        NSStrokeColorAttributeName: [UIColor blueColor]};
+    NSString *topString = @"http://www.baidu.com, Do any additional setup after loading the view, typically from a nib. http://www.baidu.com.";
+    NSAttributedString *topAttrString = [topString addAttributes:topAttrs regex:@"http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?" matchType:PDAttributedStringMatchTypeMatchAll];
+    topAttrString = [topAttrString addAttributes:topAttrs regex:@"setup after" matchType:PDAttributedStringMatchTypeMatchAll];
+    self.topLabel.attributedText = topAttrString;
     
-    NSString *string = @"iabc, abc, abc, uuu, nnn, http://www.baidu.com/path abc, abcdfg, iiii, abcdabci, http://www.baidu.com/path/iii 000888";
-    NSAttributedString *attrString = [string addAttributes:attrs regex:@"http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?" matchType:PDAttributedStringMatchTypeUnmatchAll];
-//    attrString = [attrString addAttributes:attrs string:@"path" matchType:PDAttributedStringMatchTypeUnmatchAll];
-    self.label.attributedText = attrString;
+    NSDictionary<NSAttributedStringKey, id> *bottomAttrs = @{NSFontAttributeName: [UIFont systemFontOfSize:15],
+                                                          NSForegroundColorAttributeName: [UIColor redColor]};
+    NSString *bottomString = [topString copy];
+    NSAttributedString *bottomAttrString = [bottomString addAttributes:bottomAttrs regex:@"Do any additional setup aft" matchType:PDAttributedStringMatchTypeUnmatchOnce];
+    self.bottomLabel.attributedText = bottomAttrString;
 }
 
 - (void)didReceiveMemoryWarning {
