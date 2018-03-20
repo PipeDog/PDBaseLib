@@ -22,6 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 // The key can refer to the <<< NSAttributedString.h >>> in <<< UIKit >>>.
 - (NSAttributedString *)setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
+                               string:(NSString *)aString
+                            matchType:(PDAttributedStringMatchType)matchType;
+
+- (NSAttributedString *)addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
+                               string:(NSString *)aString
+                            matchType:(PDAttributedStringMatchType)matchType;
+
+- (NSAttributedString *)setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
                                 range:(NSRange)range
                             matchType:(PDAttributedStringMatchType)matchType;
 
@@ -30,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
                             matchType:(PDAttributedStringMatchType)matchType;
 
 - (NSAttributedString *)setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
-                               regex:(NSString *)regexString
+                                regex:(NSString *)regexString
                             matchType:(PDAttributedStringMatchType)matchType;
 
 - (NSAttributedString *)addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
