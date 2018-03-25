@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol PDAttributedStringProtocol <NSObject>
 
-@optional
 // The key can refer to the <<< NSAttributedString.h >>> in <<< UIKit >>>.
 - (NSAttributedString *)setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs
                                string:(NSString *)aString
