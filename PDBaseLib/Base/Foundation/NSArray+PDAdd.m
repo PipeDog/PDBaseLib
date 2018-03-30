@@ -162,4 +162,24 @@
     }
 }
 
+- (NSArray *)filter:(BOOL (^)(id _Nonnull, NSUInteger))block {
+    NSMutableArray *objs = [NSMutableArray array];
+    
+    [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        BOOL effect = block(obj, idx);
+        if (effect) [objs addObject:obj];
+    }];
+    return [objs copy];
+}
+
+- (NSArray *)map:(id  _Nonnull (^)(id _Nonnull, NSUInteger))block {
+    NSMutableArray *objs = [NSMutableArray array];
+    
+    [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        id tmpObj = block(obj, idx);
+        if (tmpObj) [objs addObject:tmpObj];
+    }];
+    return [objs copy];
+}
+
 @end
