@@ -196,7 +196,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Map the elements in an array into other types of elements and form new arrays.
  */
-- (NSArray<ObjectType> *)map:(ObjectType (^)(ObjectType obj, NSUInteger idx))block;
+- (NSArray<ObjectType> *)map:(id (^)(ObjectType obj, NSUInteger idx))block;
 
 @end
 

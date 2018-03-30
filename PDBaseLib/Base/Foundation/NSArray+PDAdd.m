@@ -172,7 +172,7 @@
     return [objs copy];
 }
 
-- (NSArray *)map:(id  _Nonnull (^)(id _Nonnull, NSUInteger))block {
+- (NSArray *)map:(id _Nonnull (^)(id _Nonnull, NSUInteger))block {
     NSMutableArray *objs = [NSMutableArray array];
     
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
