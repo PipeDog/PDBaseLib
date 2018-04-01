@@ -27,10 +27,10 @@
 }
 
 - (void)openURL:(NSString *)urlString completion:(void (^)(BOOL))completion {
-    NSURL *url = [NSURL URLWithString:STR_SAFE(urlString)];
+    NSURL *url = [NSURL URLWithString:(urlString ?: @"")];
     
     if (![self canOpenURL:url]) {
-        BLOCK_EXE(completion, NO);
+        if (completion) completion(NO);
         return;
     }
     
@@ -38,7 +38,7 @@
         [self openURL:url options:@{} completionHandler:completion];
     } else {
         [self openURL:url];
-        BLOCK_EXE(completion, YES);
+        if (completion) completion(YES);
     }
 }
 
