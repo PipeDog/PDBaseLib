@@ -191,12 +191,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Select the qualifying elements to form a new array.
  */
-- (NSArray<ObjectType> *)filter:(BOOL (^)(ObjectType obj, NSUInteger idx))block;
+- (NSArray *)filter:(BOOL (^)(id obj, NSUInteger idx))block;
 
 /**
  Map the elements in an array into other types of elements and form new arrays.
  */
-- (NSArray<ObjectType> *)map:(id (^)(ObjectType obj, NSUInteger idx))block;
+- (NSArray *)map:(id (^)(id obj, NSUInteger idx))block;
 
 @end
 
