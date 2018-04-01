@@ -32,6 +32,7 @@
 		EC5F8BCA2047A868005B6D7A /* NSArray+PDAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5F8BC92047A868005B6D7A /* NSArray+PDAdd.m */; };
 		EC5F8BCD2047ACB0005B6D7A /* NSDictionary+PDAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5F8BCC2047ACB0005B6D7A /* NSDictionary+PDAdd.m */; };
 		EC61CB7F204824CB00DC3FE1 /* NSString+PDAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = EC61CB7E204824CB00DC3FE1 /* NSString+PDAttributedString.m */; };
+		EC869B8520710E7C00150C6E /* UIApplication+PDAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = EC869B8420710E7C00150C6E /* UIApplication+PDAdd.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,8 @@
 		EC5F8BCC2047ACB0005B6D7A /* NSDictionary+PDAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PDAdd.m"; sourceTree = "<group>"; };
 		EC61CB7D204824CB00DC3FE1 /* NSString+PDAttributedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+PDAttributedString.h"; sourceTree = "<group>"; };
 		EC61CB7E204824CB00DC3FE1 /* NSString+PDAttributedString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+PDAttributedString.m"; sourceTree = "<group>"; };
+		EC869B8320710E7C00150C6E /* UIApplication+PDAdd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+PDAdd.h"; sourceTree = "<group>"; };
+		EC869B8420710E7C00150C6E /* UIApplication+PDAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+PDAdd.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +239,8 @@
 				EC5F8B6D2046CBB2005B6D7A /* UILabel+PDAdd.m */,
 				EC5F8B6F2046CC93005B6D7A /* UINavigationBar+PDAdd.h */,
 				EC5F8B702046CC93005B6D7A /* UINavigationBar+PDAdd.m */,
+				EC869B8320710E7C00150C6E /* UIApplication+PDAdd.h */,
+				EC869B8420710E7C00150C6E /* UIApplication+PDAdd.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -396,6 +401,7 @@
 				EC5F8B562046B9A9005B6D7A /* UIControl+PDAdd.m in Sources */,
 				EC5F8BCD2047ACB0005B6D7A /* NSDictionary+PDAdd.m in Sources */,
 				EC5F8B502046B48C005B6D7A /* UIImage+PDAdd.m in Sources */,
+				EC869B8520710E7C00150C6E /* UIApplication+PDAdd.m in Sources */,
 				EC5F8B622046BC84005B6D7A /* NSData+PDAdd.m in Sources */,
 				EC5F8B652046BCF1005B6D7A /* NSNumber+PDAdd.m in Sources */,
 				EC5F8B6B2046CB23005B6D7A /* NSNotificationCenter+PDAdd.m in Sources */,
